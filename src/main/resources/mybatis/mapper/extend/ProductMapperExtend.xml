@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.springboot.helloworld.mapper.ProductMapper">
+    <resultMap id="MyResultMap" type="com.demo.springboot.helloworld.common.domain.Product" extends="BaseResultMap">
+        <association property="category" javaType="com.demo.springboot.helloworld.common.domain.Category">
+            <id column="cid" jdbcType="VARCHAR" property="cid" />
+            <result column="cname" jdbcType="VARCHAR" property="cname" />
+        </association>
+    </resultMap>
+
+    <select id="myList" resultMap="MyResultMap">
+        SELECT <include refid="Base_Column_List"/>,cname,cid
+        FROM category c,products p WHERE p.category_id = c.cid
+    </select>
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.springboot.helloworld.mapper.AdminMapper">
+    <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from admin where loginName = #{name} and password = #{pwd}
+    </select>
+    <insert id="myInsert" useGeneratedKeys="true" keyProperty="id">
+        insert into admin(loginName,password) values (#{loginname},#{password})
+    </insert>
+    <select id="selectByAdmin" parameterType="com.demo.springboot.helloworld.common.domain.Admin" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/> from admin
+        <where>
+            <if test="admin.id != null and admin.id != ''">
+                and id = #{admin.id}
+            </if>
+            <if test="admin.loginname != null and admin.loginname != ''">
+                and loginName like '%${admin.loginname}%'
+            </if>
+            <if test="admin.password != null and admin.password != ''">
+                and password like '%${admin.password}%'
+            </if>
+        </where>
+
+    </select>
+    <delete id="deleteByIds" parameterType="java.util.ArrayList">
+        delete from admin where id in
+        //集合的名字是arr, 遍历的单元 id, 以'('开始,以')'结束
+        <foreach collection="arr" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <insert id="insertByList" parameterType="java.util.ArrayList">
+        insert into admin(loginName,password) values
+        <foreach collection="list" item="admin" separator=",">
+            (#{admin.loginname},#{admin.password})
+        </foreach>
+    </insert>
+</mapper>

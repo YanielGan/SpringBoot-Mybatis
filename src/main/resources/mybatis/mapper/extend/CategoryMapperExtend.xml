@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.springboot.helloworld.mapper.CategoryMapper">
+    <resultMap id="MyResultMap" type="com.demo.springboot.helloworld.common.domain.Category" extends="BaseResultMap">
+        <collection property="list" ofType="com.demo.springboot.helloworld.common.domain.Product">
+            <id column="pid" jdbcType="VARCHAR" property="pid" />
+            <result column="pname" jdbcType="VARCHAR" property="pname" />
+            <result column="price" jdbcType="INTEGER" property="price" />
+            <result column="flag" jdbcType="VARCHAR" property="flag" />
+            <result column="category_id" jdbcType="VARCHAR" property="categoryId" />
+        </collection>
+    </resultMap>
+    <select id="getCategoryById" resultMap="MyResultMap">
+        SELECT * FROM category c,products p WHERE p.category_id = c.cid AND cid=#{cid}
+    </select>
+</mapper>
